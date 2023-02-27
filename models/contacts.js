@@ -1,8 +1,4 @@
-const fsPromises = require("fs/promises");
-const path = require("path");
 const ctrl = require("../service/index");
-
-const contactsPath = path.resolve("./models/contacts.json");
 
 const listContacts = async (req, res) => {
   const contacts = await ctrl.getContacts();
@@ -24,16 +20,13 @@ const removeContact = async (req, res) => {
 };
 
 const addContact = async (req, res) => {
-  const { name, email, phone, favorite } = req.body;
-  const result = await ctrl.createContact(name, email, phone, favorite);
+  const result = await ctrl.createContact(req.body);
   res.status(201).json(result);
 };
 
 const updateContact = async (req, res) => {
   const contactId = String(req.params.contactId);
-
-  const contactToUpdate = req.body;
-  const result = await ctrl.updateContact(contactId, contactToUpdate);
+  const result = await ctrl.updateContact(contactId, req.body);
   return res.status(200).json(result);
 };
 

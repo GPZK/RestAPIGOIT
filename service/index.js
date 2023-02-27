@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const Contact = require("./schemas");
 const getContacts = async function() {
   return Contact.find();
@@ -9,18 +8,13 @@ const getContactsById = async function(id) {
 const deleteContact = async function(id) {
   return Contact.findByIdAndDelete(id);
 };
-const createContact = async function(name, email, phone, favorite) {
-    let isfavorite = favorite ? true : false ;
-  const createdContact = new Contact({
-    name: name,
-    email: email,
-    phone: phone,
-    favorite: isfavorite,
-  });
+const createContact = async function(contact) {
+  const createdContact = new Contact(contact);
   return Contact.create(createdContact);
 };
-const updateContact = async function(id, { name, phone, email, favorite }) {
-  return Contact.updateOne({ _id: id }, { name, phone, email, favorite }).then(() =>
+
+const updateContact = async function(id, contact) {
+  return Contact.updateOne({ _id: id }, contact).then(() =>
     Contact.findById(id)
   );
 };
