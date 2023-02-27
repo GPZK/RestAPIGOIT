@@ -5,8 +5,13 @@ const {
   addContact,
   removeContact,
   updateContact,
+  updateStatusContact,
 } = require("../../models/contacts");
-const { validatePost, validatePut } = require("../../models/validation");
+const {
+  validatePost,
+  validatePut,
+  validateStatusPatch,
+} = require("../../models/validation");
 
 const router = express.Router();
 
@@ -19,5 +24,7 @@ router.post("/", validatePost, addContact);
 router.delete("/:contactId", removeContact);
 
 router.put("/:contactId", validatePut, updateContact);
+
+router.patch("/:contactId/favorite", validateStatusPatch, updateStatusContact);
 
 module.exports = router;

@@ -5,6 +5,7 @@ const contactValidationSchema = Joi.object({
     .max(30),
   email: Joi.string().email(),
   phone: Joi.string().pattern(/^\(\d{3}\)\s\d{3}-\d{4}$/),
+  favorite: Joi.boolean()
 });
 
 async function validatePost(req, res, next) {
@@ -32,7 +33,20 @@ async function validatePut(req, res, next) {
 
   next();
 }
+const validateStatusPatch = async (req, res, next)=>{
+  try {
+    await contactValidationSchema.validateAsync(req.body);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+  const {favorite} = req.body
+  if (favorite===true || favorite === false) next ()
+  else{
+  return res.status(400).json({"message": "missing field favorite"})
+  }
+}
 module.exports = {
   validatePost,
   validatePut,
+  validateStatusPatch
 };
