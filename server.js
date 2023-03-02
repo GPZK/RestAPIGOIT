@@ -1,8 +1,10 @@
 const app = require("./app");
 const mongoose = require("mongoose");
+require('dotenv').config();
+const PORT = process.env.PORT
 
-const connection = mongoose.connect(
-  "mongodb+srv://GPZK:owuwvK2Mvh3UowkA@cluster0.5knkhyd.mongodb.net/db-contacts",
+const connection = mongoose.connect( process.env.DB_URI
+  ,
   {
     useUnifiedTopology: true,
   }
@@ -11,8 +13,8 @@ const connection = mongoose.connect(
 connection
   .then(() => {
     console.log("Database connection successful");
-    app.listen(3000, () => {
-      console.log("Server running. Use our API on port: 3000");
+    app.listen(PORT || 3000, () => {
+      console.log(`Server running. Use our API on port: ${PORT}`);
     });
   })
   .catch((err) => {

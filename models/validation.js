@@ -8,6 +8,11 @@ const contactValidationSchema = Joi.object({
   favorite: Joi.boolean()
 });
 
+const userValidationSchema = Joi.object({
+  email: Joi.string().email(),
+  password: Joi.string().min(5).max(20)
+})
+
 async function validatePost(req, res, next) {
   const { name, email, phone } = req.body;
   if (!name || !phone || !email)
@@ -45,8 +50,19 @@ const validateStatusPatch = async (req, res, next)=>{
   return res.status(400).json({"message": "missing field favorite"})
   }
 }
+async function validateCredentials(req, res, next) {
+  try {
+    await userValidationSchema.validateAsync(req.body)
+  }
+  catch (err){
+    return res.status(400).json(err.details[0].message)
+  }
+  next()
+}
+
 module.exports = {
   validatePost,
   validatePut,
-  validateStatusPatch
+  validateStatusPatch,
+  validateCredentials
 };

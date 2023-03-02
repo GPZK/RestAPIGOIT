@@ -1,4 +1,4 @@
-const ctrl = require("../service/index");
+const ctrl = require("../service/ContactsService");
 
 const listContacts = async (req, res) => {
   const contacts = await ctrl.getContacts();

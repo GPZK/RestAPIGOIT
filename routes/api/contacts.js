@@ -13,9 +13,11 @@ const {
   validateStatusPatch,
 } = require("../../models/validation");
 
+const { auth } = require("../../service/jwtAuthStuff");
+
 const router = express.Router();
 
-router.get("/", listContacts);
+router.get("/", auth, listContacts);
 
 router.get("/:contactId", getContactById);
 
