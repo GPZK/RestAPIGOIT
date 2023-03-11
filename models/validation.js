@@ -5,13 +5,18 @@ const contactValidationSchema = Joi.object({
     .max(30),
   email: Joi.string().email(),
   phone: Joi.string().pattern(/^\(\d{3}\)\s\d{3}-\d{4}$/),
-  favorite: Joi.boolean()
+  favorite: Joi.boolean(),
 });
 
 const userValidationSchema = Joi.object({
-  email: Joi.string().email(),
-  password: Joi.string().min(5).max(20)
-})
+  email: Joi.string()
+    .email()
+    .required(),
+  password: Joi.string()
+    .min(5)
+    .max(20)
+    .required(),
+});
 
 async function validatePost(req, res, next) {
   const { name, email, phone } = req.body;
@@ -38,31 +43,30 @@ async function validatePut(req, res, next) {
 
   next();
 }
-const validateStatusPatch = async (req, res, next)=>{
+const validateStatusPatch = async (req, res, next) => {
   try {
     await contactValidationSchema.validateAsync(req.body);
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
-  const {favorite} = req.body
-  if (favorite===true || favorite === false) next ()
-  else{
-  return res.status(400).json({"message": "missing field favorite"})
+  const { favorite } = req.body;
+  if (favorite === true || favorite === false) next();
+  else {
+    return res.status(400).json({ message: "missing field favorite" });
   }
-}
+};
 async function validateCredentials(req, res, next) {
   try {
-    await userValidationSchema.validateAsync(req.body)
+    await userValidationSchema.validateAsync(req.body);
+  } catch (err) {
+    return res.status(400).json(err.details[0].message);
   }
-  catch (err){
-    return res.status(400).json(err.details[0].message)
-  }
-  next()
+  next();
 }
 
 module.exports = {
   validatePost,
   validatePut,
   validateStatusPatch,
-  validateCredentials
+  validateCredentials,
 };

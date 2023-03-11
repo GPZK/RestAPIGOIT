@@ -24,7 +24,6 @@ passport.use(
     User.findById(payload.id)
       .then((foundUser) => {
         if (!foundUser) return done(new Error("user not found"));
-        console.log(foundUser);
         return done(null, foundUser);
       })
       .catch((err) => {
@@ -44,9 +43,8 @@ async function auth(req, res, next) {
       });
     }
     req.user = user;
-    console.log(req.user);
     next();
-  });
+  })(req, res, next);
 }
 
 module.exports = {

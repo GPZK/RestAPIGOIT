@@ -8,7 +8,7 @@ async function registerNewUser(req, res) {
     const newUser = new User({ password, email });
     await User.create(newUser);
   } catch (err) {
-    if (err.keyPattern[email] === 1)
+    if (err.keyPattern["email"] === 1)
       return res
         .status(409)
         .json({ message: `user with email ${email} already exists` });
@@ -30,7 +30,7 @@ async function loginUser(req, res) {
   const passwordCheck = await bcrypt.compare(password, foundUser.password);
   if (!passwordCheck)
     return res.status(401).json({ message: "Email or password is wrong" });
-  const token = await generateJWTForUser(foundUser)
+  const token = await generateJWTForUser(foundUser);
   return res.status(200).json({
     token: token,
     user: {
@@ -40,7 +40,19 @@ async function loginUser(req, res) {
   });
 }
 
+async function logout(req, res) {
+  return res
+    .status(200)
+    .json({ message: `${req.user.email}, удоли токен пожалуйсто` });
+}
+async function showCurrent(req, res) {
+  const user = { email: req.user.email, subscribtion: req.user.subscribtion };
+  return res.status(200).json(user);
+}
+
 module.exports = {
   registerNewUser,
   loginUser,
+  logout,
+  showCurrent,
 };

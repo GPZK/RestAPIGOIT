@@ -19,14 +19,19 @@ const router = express.Router();
 
 router.get("/", auth, listContacts);
 
-router.get("/:contactId", getContactById);
+router.get("/:contactId", auth, getContactById);
 
-router.post("/", validatePost, addContact);
+router.post("/", auth, validatePost, addContact);
 
-router.delete("/:contactId", removeContact);
+router.delete("/:contactId", auth, removeContact);
 
-router.put("/:contactId", validatePut, updateContact);
+router.put("/:contactId", auth, validatePut, updateContact);
 
-router.patch("/:contactId/favorite", validateStatusPatch, updateStatusContact);
+router.patch(
+  "/:contactId/favorite",
+  auth,
+  validateStatusPatch,
+  updateStatusContact
+);
 
 module.exports = router;

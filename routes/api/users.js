@@ -1,17 +1,23 @@
 const express = require("express");
-const { registerNewUser, loginUser } = require("../../service/usersService");
-const { validateCredentials} = require('../../models/validation')
+const {
+  registerNewUser,
+  loginUser,
+  logout,
+  showCurrent,
+} = require("../../service/usersService");
+const { validateCredentials } = require("../../models/validation");
+const { auth } = require("../../service/jwtAuthStuff");
 
 const usersRouter = express.Router();
 
-usersRouter.post('/register', validateCredentials, registerNewUser)
+usersRouter.post("/register", validateCredentials, registerNewUser);
 
-usersRouter.get('/login', validateCredentials,  loginUser)
+usersRouter.get("/login", validateCredentials, loginUser);
 
-usersRouter.post('/logout', )
+usersRouter.post("/logout", auth, logout);
 
-usersRouter.get('/current')
+usersRouter.get("/current", auth, showCurrent);
 
 module.exports = {
-    usersRouter
-}
+  usersRouter,
+};
