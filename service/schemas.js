@@ -7,7 +7,7 @@ async function hashThePassword(password) {
   return bcrypt.hash(password, 10);
 }
 
-const contact = new Schema(
+const contact = new Schema( 
   {
     name: {
       type: String,

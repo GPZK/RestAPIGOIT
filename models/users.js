@@ -1,6 +1,6 @@
-const { User } = require("./schemas");
+const { User } = require("../service/schemas");
 const bcrypt = require("bcrypt");
-const { generateJWTForUser } = require("./jwtAuthStuff");
+const { generateJWTForUser } = require("../service/jwtAuthStuff");
 
 async function registerNewUser(req, res) {
   const { email, password } = req.body;
