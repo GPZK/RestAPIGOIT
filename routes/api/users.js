@@ -4,7 +4,7 @@ const {
   loginUser,
   logout,
   showCurrent,
-} = require("../../models/usersService");
+} = require("../../models/users");
 const { validateCredentials } = require("../../models/validation");
 const { auth } = require("../../service/jwtAuthStuff");
 
